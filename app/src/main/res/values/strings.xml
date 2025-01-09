@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">KeyGuardian</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Password Manager</string>
+    <string name="nav_header_subtitle">Login to start</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_register">Register</string>
+    <string name="menu_logout">Logout</string>
+
+    <string name="login_text">Login with email and password</string>
+    <string name="register_text">Create an account with email and password</string>
+    <string name="logout_text">Logout of your account by using this button</string>
+    <string name="email_placeholder">Email</string>
+    <string name="password_placeholder">Password</string>
+    <string name="create_account">Or create an account here</string>
+    <string name="confirmation">SEND</string>
+</resources>
