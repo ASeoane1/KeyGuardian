@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.keyguardian.AESUtils
 import com.example.keyguardian.DocumentListAdapter
 import com.example.keyguardian.R
 import com.example.keyguardian.RetrofitClient

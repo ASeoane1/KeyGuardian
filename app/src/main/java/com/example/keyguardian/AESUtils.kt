@@ -1,4 +1,3 @@
-package com.example.keyguardian
 import android.util.Base64
 import java.security.SecureRandom
 import java.security.spec.KeySpec
@@ -14,7 +13,7 @@ object AESUtils {
     private const val AES_MODE = "AES/CBC/PKCS5Padding"
     private const val KEY_SIZE = 256
     private const val ITERATION_COUNT = 65536
-    private const val SALT = "PXSSsWi7AgUVI5MwntTrHg==" // Reemplaza por un valor fijo único para tu aplicación
+    private const val SALT = "your_fixed_salt_here" // Reemplaza por un valor fijo único para tu aplicación
 
     // Generar una clave determinística usando PBKDF2
     fun generateKeyFromPassword(password: String): SecretKey {
