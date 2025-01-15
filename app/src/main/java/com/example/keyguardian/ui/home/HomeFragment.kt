@@ -14,9 +14,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.keyguardian.AESUtils
 import com.example.keyguardian.DocumentListAdapter
 import com.example.keyguardian.R
 import com.example.keyguardian.RetrofitClient
+import com.example.keyguardian.SensitiveDataStore
 import com.example.keyguardian.UpdateDocumentRequest
 import com.example.keyguardian.UserDocumentsRequest
 import com.example.keyguardian.UserDocumentsResponse
@@ -101,7 +103,7 @@ class HomeFragment : Fragment() {
 
         builder.setPositiveButton("OK") { dialog, which ->
             val documentName = input.text.toString()
-            addDocument(documentName)
+            showEnterPasswordDialog(documentName)
         }
         builder.setNegativeButton("Cancel") { dialog, which ->
             dialog.cancel()
@@ -111,9 +113,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun addDocument(documentName: String) {
-
         val apiService = RetrofitClient.getApiServiceWithToken(tokenText)
-        val data: Map<String, String> = mapOf("myUser" to "myPassword")
+        val password = SensitiveDataStore.getPassword() ?: throw IllegalStateException("Password is missing")
+        val testUser = AESUtils.encrypt("myUser",password).replace("\n", "")
+        val testPassword = AESUtils.encrypt("myPassword",password).replace("\n", "")
+        val data: Map<String, String> = mapOf( testUser to testPassword)
         val requestBody = UpdateDocumentRequest(user = userIdText, document_name = documentName, data = data)
         apiService.updateDocument(requestBody).enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
@@ -130,4 +134,28 @@ class HomeFragment : Fragment() {
             }
         })
     }
+
+    private fun showEnterPasswordDialog(documentName: String) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Enter Password")
+        val passwordInput = EditText(requireContext())
+        passwordInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        builder.setView(passwordInput)
+
+        builder.setPositiveButton("Create") { _, _ ->
+            val password = passwordInput.text.toString().trim()
+            if (password.isNotEmpty()) {
+                SensitiveDataStore.setPassword(password)
+                addDocument(documentName)
+            } else {
+                Toast.makeText(requireContext(), "Password cannot be empty", Toast.LENGTH_SHORT).show()
+            }
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.cancel()
+        }
+
+        builder.show()
+    }
+
 }
