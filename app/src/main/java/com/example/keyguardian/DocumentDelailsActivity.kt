@@ -139,15 +139,15 @@ class DocumentDetailsActivity : AppCompatActivity() {
 
     private fun saveChanges() {
         documentMap.clear()
-        // Empieza desde el índice 0 para incluir todos los elementos
         for (i in 0 until linearLayoutContainer.childCount) {
             val view = linearLayoutContainer.getChildAt(i)
-            if (view is LinearLayout && view.childCount == 3) {  // Asegúrate de que el LinearLayout contiene los tres elementos (keyEditText, valueEditText, buttonDelete)
+            if (view is LinearLayout && view.childCount == 3) {
                 val keyEditText = view.getChildAt(0) as EditText
                 val valueEditText = view.getChildAt(1) as EditText
 
-                val key = keyEditText.text.toString()
-                val value = valueEditText.text.toString()
+                val password = SensitiveDataStore.getPassword() ?: throw IllegalStateException("Password is missing")
+                val key = AESUtils.encrypt(keyEditText.text.toString(), password).replace("\n", "")
+                val value = AESUtils.encrypt(valueEditText.text.toString(), password).replace("\n", "")
 
                 if (key.isNotEmpty()) {
                     documentMap[key] = value
