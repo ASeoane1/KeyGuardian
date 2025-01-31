@@ -7,4 +7,7 @@
     <color name="yellow_700">#edea34</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="dark_blue">#0A192F</color>
+    <color name="purple">#A259FF</color>
+    <color name="cyan">#00E5FF</color>
 </resources>
